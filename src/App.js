@@ -4,12 +4,9 @@ import './scss/colors.css';
 import './App.css';
 
 import OrganizationList from './components/Organizations';
+import RepositoriesSelected from './components/RepositoriesSelected';
 
 class App extends Component {
-  repositorySelected(url) {
-    console.log(url);
-  }
-
   render() {
     return (
       <div className="App">
@@ -17,7 +14,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <OrganizationList onSelectRepository={this.repositorySelected} />
+        <RepositoriesSelected />
+        <OrganizationList />
       </div>
     );
   }

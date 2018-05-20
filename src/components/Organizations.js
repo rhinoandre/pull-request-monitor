@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { fetchOrganizations } from '../github.api.js';
+import fetchOrganizations from '../github.api.js';
 import Repositories from './Repositories';
 
 export function Organization(props) {
   return (
-    <li className="organizations">
+    <li className="organization">
       <h1><a onClick={() => props.onToggleRepositories(props.organizationIndex)}>{props.data.name}</a></h1>
       <Repositories
         isVisible={props.showRepository}
-        repositories={props.data.repositories}
-        onSelectRepository={props.onSelectRepository} />
+        repositories={props.data.repositories} />
     </li>
   );
 }
@@ -40,11 +39,10 @@ export default class OrganizationList extends Component {
                     showRepository={this.state.repositoryOpened === index}
                     organizationIndex={index}
                     key={index}
-                    onToggleRepositories={this.toggleRepositories}
-                    onSelectRepository={this.state.onSelectRepository} />;
+                    onToggleRepositories={this.toggleRepositories} />;
         });
     }
 
-    return <ul className="organizations">{returnedValue}</ul>;
+    return <ul>{returnedValue}</ul>;
   }
 }
