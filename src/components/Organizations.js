@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import { fetchOrganizations } from '../github.api.js';
 import Repositories from './Repositories';
 
-export default function OrganizationList(props) {
-  return <ul className="organizations"><Organization onSelectRepository={props.onSelectRepository} /></ul>;
+export function Organization(props) {
+  return (
+    <li className="organizations">
+      <h1><a onClick={() => props.onToggleRepositories(props.organizationIndex)}>{props.data.name}</a></h1>
+      <Repositories
+        isVisible={props.showRepository}
+        repositories={props.data.repositories}
+        onSelectRepository={props.onSelectRepository} />
+    </li>
+  );
 }
 
-export class Organization extends Component {
+export default class OrganizationList extends Component {
   constructor(props) {
     super();
     this.state = props;
@@ -27,15 +35,16 @@ export class Organization extends Component {
     if (this.state.organizations) {
       returnedValue = this.state.organizations
         .map((organization, index) => {
-          return (
-            <li className="organizations" key={index}>
-              <h1><a onClick={() => this.toggleRepositories(index)}>{organization.name}</a></h1>
-              <Repositories onSelectRepository={this.state.onSelectRepository} isVisible={this.state.repositoryOpened === index} repositories={organization.repositories} />
-            </li>
-          )
+          return <Organization
+                    data={organization}
+                    showRepository={this.state.repositoryOpened === index}
+                    organizationIndex={index}
+                    key={index}
+                    onToggleRepositories={this.toggleRepositories}
+                    onSelectRepository={this.state.onSelectRepository} />;
         });
     }
 
-    return returnedValue;
+    return <ul className="organizations">{returnedValue}</ul>;
   }
 }
