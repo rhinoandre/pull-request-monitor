@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { fetchOrganizations } from './github.api.js';
+import { fetchOrganizations } from '../github.api.js';
 import Repositories from './Repositories';
 
-export default function OrganizationList() {
-  return <ul className="organizations"><Organization /></ul>;
+export default function OrganizationList(props) {
+  return <ul className="organizations"><Organization onSelectRepository={props.onSelectRepository} /></ul>;
 }
 
 export class Organization extends Component {
   constructor(props) {
     super();
-    this.state = {
-      organizations: [],
-      repositoryOpen: -1
-    };
+    this.state = props;
+
     fetchOrganizations()
         .then((organizations) => this.setState({ organizations }))
         .catch(console.error);
@@ -20,7 +18,7 @@ export class Organization extends Component {
 
   toggleRepositories = (organizationIndex) => {
     this.setState({
-      repositoryOpen: this.state.repositoryOpen === organizationIndex ? -1 : organizationIndex
+      repositoryOpened: this.state.repositoryOpened === organizationIndex ? -1 : organizationIndex
     });
   }
 
@@ -32,7 +30,7 @@ export class Organization extends Component {
           return (
             <li className="organizations" key={index}>
               <h1><a onClick={() => this.toggleRepositories(index)}>{organization.name}</a></h1>
-              <Repositories isVisible={this.state.repositoryOpen === index} repositories={organization.repositories} />
+              <Repositories onSelectRepository={this.state.onSelectRepository} isVisible={this.state.repositoryOpened === index} repositories={organization.repositories} />
             </li>
           )
         });

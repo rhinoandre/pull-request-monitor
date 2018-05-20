@@ -3,9 +3,13 @@ import logo from './logo.svg';
 import './scss/colors.css';
 import './App.css';
 
-import OrganizationList from './Organizations';
+import OrganizationList from './components/Organizations';
 
 class App extends Component {
+  repositorySelected(url) {
+    console.log(url);
+  }
+
   render() {
     return (
       <div className="App">
@@ -13,7 +17,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <OrganizationList />
+        <OrganizationList onSelectRepository={this.repositorySelected} />
       </div>
     );
   }
