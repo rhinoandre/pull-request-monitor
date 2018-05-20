@@ -5,7 +5,7 @@ import Repositories from './Repositories';
 export function Organization(props) {
   return (
     <li className="organization">
-      <h1><a onClick={() => props.onToggleRepositories(props.organizationIndex)}>{props.data.name}</a></h1>
+      <h3><a onClick={() => props.onToggleRepositories(props.organizationIndex)}>{props.data.name}</a></h3>
       <Repositories
         isVisible={props.showRepository}
         repositories={props.data.repositories} />
@@ -43,6 +43,11 @@ export default class OrganizationList extends Component {
         });
     }
 
-    return <ul>{returnedValue}</ul>;
+    return (
+      <div>
+        <h1>Repositories</h1>
+        <ul>{returnedValue}</ul>
+      </div>
+    );
   }
 }
